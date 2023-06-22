@@ -1,52 +1,66 @@
-describe('Navigation and Contact Us', () => {
-  /*beforeEach(() => {
-    cy.visit('https://uel.ac.uk/'); // Visit the UEL website
-    cy.viewport(1920, 1080)
-  });*/
+import { it } from "mocha";
 
-  it('Homepage', () => {
-
-    cy.visit('https://uel.ac.uk/'); // Visit the UEL website
-    cy.viewport(1920, 1080) //Set resolution to 1080p
-    cy.get('#onetrust-accept-btn-handler').click(); // Click on the accept cookies button
+describe('Flipkart Test', () => {
     
-    //Verify six menu items visible or not:
-    cy.contains('Study').click();
-    cy.contains('International').click();
-    cy.contains('Your career').click();
-    cy.contains('Partners').click();
-    cy.contains('Our research').click();
-    cy.contains('About').click(); 
-
-    //Site search
-
-    cy.get('#search-icon').click();
-    //cy.get('.coh-container header-search coh-ce-cpt_header-255ad105').click()
-    // cy.get('[aria-label="Search"]').click()
-    //cy.get('input[aria-label="Search Box"].coh-container header-search coh-ce-cpt_header-255ad105').click()
-    //cy.scrollTo('bottom');
-    //cy.contains('Undergraduate').click();
+  beforeEach(() => {
     
-    
+    cy.viewport(1920, 1080)//Set resolution to 1080p
 
-    //cy.get('.coh-link mobile-1 coh-style-inline-link coh-ce-432f5798 js-coh-menu-item-link light-link').click()
-    //cy.scrollTo('top');
+  })
+
+
+  it('Open Flipkart and search Oneplus', () => {
+   
+    cy.visit('https://www.flipkart.com/'); //Navigate to Flipkart site
+    cy.get('._3704LK').type("oneplus"+ '{enter}');  //Search for keyword "oneplus"
+     
+    //Set different sort & order
+    cy.contains("Price -- High to Low").click();
+    cy.contains("Price -- Low to High").click();
+    cy.contains("Popularity").click();
+    cy.contains("Relevance").click();
+
+    //Open an item
+    cy.contains("OnePlus Nord CE 2 Lite 5G (Black Dusk, 128 GB)").invoke('removeAttr', 'target').click(); 
+    //This portion ".invoke('removeAttr', 'target').click()" opens the URL in the same tab and restricts opening on new tab
+   
+    cy.get('[class="_30jeq3 _16Jk6d"]').invoke('text').then((Flipkart) => { //Fetch the price
+      
+      console.log(Flipkart); // Output the text to the Cypress console
+      
+    });
+    // Take a screenshot of the visible page
+    cy.screenshot('Flipkart price', { capture: 'viewport'});
     
+   
   });
 
-  /*it('find and click on "About"', () => {
-      cy.contains('About').click(); // Click on the About section link
+  it('Open amazon and search Oneplus', ()  => {
+    
+    
+    cy.visit('https://www.amazon.in/');
+    cy.get("#twotabsearchtextbox").type("OnePlus Nord CE 2 Lite 5G"+ '{enter}');
+    cy.contains("OnePlus Nord CE 2 Lite 5G (Black Dusk, 6GB RAM, 128GB Storage)").invoke('removeAttr', 'target').click(); 
+    
+
+    cy.get('[class="a-price-whole"]').invoke('text').then((Amazon) => { //Fetch the price
       
-      cy.contains('Contact us').click()
+      console.log(Amazon); // Output the text to the Cypress console
+      
+    });
 
-  })*/
-  /*it('should click on Contact Us', () => {
-   // cy.get('#onetrust-accept-btn-handler').click(); // Click on the accept cookies button
+    // Take a screenshot of the visible page
+    cy.screenshot('Amazon price', { capture: 'viewport' }).end();
+    
+   
 
-    cy.contains('About').click(); // Click on the About section link
+  })
 
-    cy.contains('Contact Us').click(); // Click on the Contact Us link
+  
+cy.stop();
 
-    // Perform assertions or further actions on the Contact Us page
-  });*/
-});
+
+
+
+
+})
